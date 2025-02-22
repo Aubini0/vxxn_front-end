@@ -75,7 +75,7 @@ function Search() {
 
     return (
         <Layout>
-            {/* Left Sidebar */}
+            {/* Left Sidebar 
             <div className="fixed lg:block hidden border-none left-3 top-3">
                 <div style={{ width: "300px", height: "calc(100vh - 24px)" }} className="artboard phone-1 bg-black rounded-[20px] flex justify-center items-center">
                     {isLoading ?
@@ -83,16 +83,16 @@ function Search() {
                         <div style={{ width: "270px", height: "calc(100vh - 50px)" }} className="artboard phone-1 bg-[#121212] rounded-[20px]" />
                     }
                 </div>
-            </div>
+            </div> */}
 
             {/* Main Content */}
             <div className="flex-1 min-h-screen">
                 <div className="w-full flex justify-center">
-                    <div ref={mainRef} style={{ height: "calc(100vh - 24px)" }} className="bg-black rounded-[20px] fixed top-3 h-full overflow-y-auto no-scrollbar lg:max-w-[calc(100vw-650px)] max-w-[calc(100vw-24px)] w-full">
-                        <Header />
+                    <div ref={mainRef} style={{ height: "calc(100vh - 24px)" }} className="bg-black fixed top-3 h-full overflow-y-auto no-scrollbar max-w-[calc(100vw-24px)] w-full">
+                        <Header isUpload/>
 
                         {/* Search Section */}
-                        <div className={`pt-10 ${searchValue ? "pb-[20px]" : "pb-[60px]"} fixed top-[60px] bg-black z-10 lg:max-w-[calc(100vw-650px)] max-w-[calc(100vw-24px)] w-full md:px-0 px-10`}>
+                        <div className={`pt-10 ${searchValue ? "pb-[20px]" : "pb-[60px]"} fixed top-[60px] bg-black z-10 max-w-[calc(100vw-24px)] w-full md:px-0 px-10`}>
                             <form onSubmit={handleSearch} className="flex justify-center items-center">
                                 <input
                                     defaultValue={searchValue}
@@ -131,7 +131,7 @@ function Search() {
                 </div>
             </div>
 
-            {/* Right Sidebar */}
+            {/* Right Sidebar 
             <div className="fixed lg:block hidden border-none right-3 top-3">
                 <div style={{ width: "300px", height: "calc(100vh - 24px)" }} className="artboard phone-1 bg-black rounded-[20px] h-full overflow-y-auto no-scrollbar">
                     {isLoading ?
@@ -141,7 +141,7 @@ function Search() {
                         <Sidebar isRightSide />
                     }
                 </div>
-            </div>
+            </div> */}
 
             <div className={`fixed top-0 right-0 h-full w-full sm:max-w-[312px] shadow-lg transition-transform duration-300 rounded-[26px] ${
                 isProfileOpen ? "translate-x-0" : "translate-x-full"}`}>

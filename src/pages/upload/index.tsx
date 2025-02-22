@@ -100,7 +100,7 @@ function UploadPage() {
 
     return (
         <Layout>
-            <div style={{ width: "100%", height: "calc(100vh - 24px)" }} className="artboard mx-2 my-3 phone-1 bg-black rounded-[20px] h-full overflow-y-auto no-scrollbar">
+            <div style={{ width: "100%", height: "calc(100vh - 24px)" }} className="artboard mx-2 my-3 phone-1 bg-black h-full overflow-y-auto no-scrollbar">
                 {/* haeder */}
                 <Header isUpload />
                 <div className="flex-1 p-6 mt-20">
