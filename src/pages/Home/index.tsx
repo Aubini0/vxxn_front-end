@@ -1,20 +1,61 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../layout/layout";
-import Sidebar from "../../layout/sidebar";
 import VideoPlayerModal from "../../components/videoPlayer/videoPlayer";
 import { VideoModal } from "../../components/videoModal/videoModal";
 import { CardSkeleton, PostSkeleton } from "../../components/skeleton/skeleton";
 import { Header } from "../../layout/header";
 import SponsoredCard from "../../layout/components/SponsoredCard";
 import CreatorCard from "../../layout/components/CreatorCard";
+import { FaPlay, FaShare } from "react-icons/fa";
+
+const styles = {
+  desktop: {
+    backgroundColor: "#000000",
+    display: "flex",
+    flexDirection: "row" as const,
+    justifyContent: "center",
+    width: "100%",
+    height: "100vh",
+    padding: "20px",
+    boxSizing: "border-box" as const,
+  },
+  mainContent: {
+    backgroundColor: "#000000",
+    height: "792px",
+    position: "relative" as const,
+    width: "1440px",
+  },
+  videoContainer: {
+    backgroundColor: "#ffffff",
+    borderRadius: "16px",
+    height: "666px",
+    left: "533px",
+    overflow: "hidden",
+    position: "relative",
+    width: "375px",
+    marginBottom: "24px", // Espacement entre les vidéos
+  },
+  scrollContainer: {
+    display: "flex",
+    flexDirection: "column" as const,
+    alignItems: "center",
+    gap: "24px", // Espacement entre les éléments
+    paddingBottom: "24px", // Padding en bas pour éviter que la dernière vidéo soit trop proche du bord
+  },
+  frameButtons: {
+    display: "flex",
+    flexDirection: "column" as const,
+    gap: "4px",
+    position: "absolute" as const,
+  },
+};
 
 function Home() {
   const [posts, setPosts] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const mainRef = React.useRef<any>(null);
 
-  // Load initial posts and setup scroll listener
   const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
@@ -26,6 +67,7 @@ function Home() {
       ]);
     }
   };
+
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {
@@ -42,100 +84,70 @@ function Home() {
 
   return (
     <Layout>
-      <div className="fixed lg:block hidden border-none left-3 top-3 ">
-        <div
-          style={{ width: "300px", height: "calc(100vh - 24px)" }}
-          className="artboard phone-1 bg-black rounded-[20px] flex justify-center items-center"
-        >
-          {isLoading ? (
-            <div className="skeleton min-h-[calc(100vh-50px)] max-h-[calc(100vh-50px)] min-w-[270px] max-w-[270px]"></div>
-          ) : (
-            <div
-              style={{ width: "270px", height: "calc(100vh - 50px)" }}
-              className="artboard phone-1 bg-[#121212] rounded-[20px]"
-            ></div>
-          )}
-        </div>
-      </div>
-      <div className="flex-1 min-h-screen">
-        <div className="w-full flex justify-center">
-          <Header />
+      <div style={styles.desktop}>
+        <Header isUpload />
+
+        <div style={styles.mainContent}>
           <div
             ref={mainRef}
-            style={{ height: "calc(100vh - 24px)" }}
-            className="rounded-[20px] fixed top-3 h-full lg:max-w-[calc(100vw-650px)] max-w-[calc(100vw-24px)] w-full bg-black"
-          >
-            {/* haeder */}
-            {/* the snap propery on works if the height is set, don't remove it */}
-            <div className="max-h-[91vh] mt-10 w-full snap-y snap-mandatory scroll-smooth overflow-y-auto no-scrollbar">
-              {isLoading ? (
-                <div className="mt-10 snap-start">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <div className=" mb-6 flex justify-center items-center">
-                      <PostSkeleton key={i} />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                posts.map((post, index) => (
-                  <>
-                    {/* the className in this component is mandatory for scroll-snap */}
-                    <div
-                      key={post}
-                      className="max-h-[90vh] snap-start"
-                    >
-                      <VideoPlayerModal isRightSide={false} />
-                    </div>
-                    {(index + 1) % 4 === 0 && (
-                      <div className="lg:hidden flex items-center justify-center w-full h-full px-5 snap-start">
-                        <SponsoredCard
-                          title="Arsenal"
-                          description="Lorem ipsum dolor sit amet, 
-                          consectetur adipiscing elit. Sed do eiusmod
-                          tempor incididunt ut labore et dolore magna aliqua.
-                          Lorem ipsum dolor sit amet, 
-                          consectetur adipiscing elit. Sed do eiusmod
-                           tempor incididunt ut labore et dolore magna aliqua."
-                          image="https://picsum.photos/150"
-                          sponsorLogo="https://picsum.photos/300"
-                          sponsorName="Arsenal"
-                        />
-                      </div>
-                    )}
-
-                    {/* {(index + 1) % 6 === 0 && (
-                      <div className="lg:hidden flex items-center justify-center w-full h-full px-5 snap-start">
-                        <CreatorCard
-                          username={"cash.baker"}
-                          avatar={
-                            "https://images.unsplash.com/photo-1633332755192-727a05c4013d"
-                          }
-                          isVerified={true}
-                          postedAgo={"5h ago"}
-                        />
-                      </div>
-                    )} */}
-                  </>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="fixed lg:block hidden border-none right-3 top-3">
-          <div
-            style={{ width: "300px", height: "calc(100vh - 24px)" }}
-            className="artboard phone-1 bg-black rounded-[20px] h-full overflow-y-auto no-scrollbar"
+            className="max-h-[91vh] mt-20 w-full snap-y snap-mandatory scroll-smooth overflow-y-auto no-scrollbar"
           >
             {isLoading ? (
-              <div className="mt-10 flex justify-center w-full items-center flex-col">
-                <CardSkeleton />
+              <div className="mt-10 snap-start">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="mb-6 flex justify-center items-center">
+                    <PostSkeleton />
+                  </div>
+                ))}
               </div>
             ) : (
-              <Sidebar isRightSide />
+              posts.map((post, index) => (
+                <div key={post} className="relative max-h-[90vh] snap-start">
+                  <div style={styles.videoContainer}>
+                    <VideoPlayerModal isRightSide={false} />
+                    <div
+                      className="absolute bg-gradient-to-t from-[rgb(6,16,16)] to-transparent opacity-60"
+                      style={{ height: "200px", bottom: 0, left: 0, width: "100%" }}
+                    />
+
+                    <div className="absolute bottom-[112px] left-4 flex flex-col gap-3">
+                      <span className="text-white text-sm font-medium opacity-75">
+                        Sam William
+                      </span>
+                      <p className="text-white text-xl font-semibold">
+                        New menu at American Restaurant!
+                      </p>
+                    </div>
+
+                    <div className="absolute bottom-6 left-4 w-[343px] h-1 backdrop-blur-lg bg-[#1e1e1e8f] border border-[#4e4e4e] rounded-full">
+                      <div className="relative h-1 w-[155px]">
+                        <div className="absolute h-1 w-[153px] bg-white rounded-full" />
+                        <div className="absolute right-0 -top-1 w-2 h-2 bg-white rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Boutons Play et Share sans cercle */}
+                  <div style={{ ...styles.frameButtons, bottom: "5.5rem", left: "932px" }}>
+                    {/* Icône Play */}
+                    <div className="flex flex-col items-center">
+                      <FaPlay className="w-6 h-6 text-white" />
+                      <span className="text-white text-sm mt-1">1.4m</span>
+                    </div>
+
+                    {/* Icône Share */}
+                    <div className="flex flex-col items-center mt-6">
+                      <FaShare className="w-6 h-6 text-white" />
+                      <span className="text-white text-sm mt-1">238</span>
+                    </div>
+                  </div>
+
+                </div>
+              ))
             )}
           </div>
         </div>
+
         {isModalOpen && (
           <VideoModal imageUrl="" onClose={() => setIsModalOpen(false)} />
         )}
